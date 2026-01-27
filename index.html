@@ -9,7 +9,7 @@
     <style>
         :root {
             --gold: #9e801b;
-            --text-greyish: #555555;
+            --text-greyish: #777777; /* Fainter greyish tone */
             --glass-bg: rgba(255, 255, 255, 0.32);
             --glass-border: rgba(255, 255, 255, 0.4);
         }
@@ -21,7 +21,6 @@
             background-size: cover;
             display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
             color: var(--text-greyish);
-            /* Allow scrolling only if content overflows (mobile) */
             overflow-x: hidden;
             overflow-y: auto;
         }
@@ -35,13 +34,17 @@
             align-items: center;
         }
 
-        .header-top { 
-            font-size: clamp(1.1rem, 1.6vw, 1.8rem); 
-            letter-spacing: 0.3vw; 
+        /* HEADER & FOOTER - Now identical in style */
+        .header-top, .footer-text { 
+            font-size: clamp(1.2rem, 1.8vw, 2.2rem);
+            font-weight: 400;
+            letter-spacing: -0.02vw; 
             text-transform: uppercase; 
-            font-weight: 500;
-            margin-top: 6vh;
+            text-align: center;
+            white-space: nowrap;
         }
+
+        .header-top { margin-top: 6vh; }
 
         .main-headline { 
             font-size: clamp(1.4rem, 3.2vw, 3.8rem); 
@@ -54,10 +57,9 @@
         }
         #status-text { font-weight: 600; }
 
-        /* RESPONSIVE CONTAINER */
         .card-container { 
             display: flex; 
-            flex-direction: row; /* Default Desktop */
+            flex-direction: row; 
             gap: 3vw; 
             width: 100%;
             justify-content: center;
@@ -80,31 +82,15 @@
             box-shadow: 0 40px 80px rgba(0, 0, 0, 0.06);
         }
 
-        /* MOBILE OVERRIDES */
-        @media (max-width: 768px) {
-            .dashboard-wrapper { height: auto; padding-bottom: 5vh; }
-            .card-container { 
-                flex-direction: column; 
-                margin-top: 4vh;
-                gap: 5vh;
-            }
-            .glass-card {
-                width: 85vw;
-                height: 85vw; /* Maintain square on mobile */
-                padding: 4vh 5vw;
-            }
-            .header-top { margin-top: 4vh; }
-            .aqi-value { font-size: 25vw; } /* Fluid AQI for mobile */
-            .footer-container { margin-top: 6vh; flex: none; }
-        }
-
+        /* Bold labels for card titles */
         .card-label { 
             font-size: clamp(1.1rem, 1.8vw, 2rem); 
-            letter-spacing: 0.3vw; 
+            letter-spacing: 0.1vw; 
             text-transform: uppercase; 
             font-weight: 400;
         }
-        
+        .card-label b { font-weight: 700; }
+
         .aqi-value { 
             font-size: clamp(5rem, 11vw, 13rem); 
             font-weight: 200; color: var(--gold); 
@@ -130,7 +116,7 @@
             letter-spacing: 1px; 
             margin-bottom: 4px; 
             font-weight: 400; 
-            opacity: 0.8;
+            opacity: 0.7; /* Fainter */
         }
 
         .metric-val { 
@@ -141,11 +127,7 @@
             align-items: baseline;
         }
         
-        .metric-unit { 
-            font-size: 1em; 
-            font-weight: 400; 
-            margin-left: 6px; 
-        }
+        .metric-unit { font-size: 1em; font-weight: 400; margin-left: 6px; }
 
         .footer-container {
             flex: 1;
@@ -155,25 +137,26 @@
             width: 100%;
         }
 
-        .footer-text { 
-            font-size: clamp(1rem, 1.8vw, 2.2rem);
-            font-weight: 500;
-            letter-spacing: -0.02vw; 
-            text-transform: uppercase; 
-            text-align: center;
+        @media (max-width: 768px) {
+            .dashboard-wrapper { height: auto; padding-bottom: 5vh; }
+            .card-container { flex-direction: column; margin-top: 4vh; gap: 5vh; }
+            .glass-card { width: 85vw; height: 85vw; padding: 4vh 5vw; }
+            .header-top { margin-top: 4vh; }
+            .aqi-value { font-size: 22vw; }
+            .footer-container { margin-top: 6vh; flex: none; }
         }
     </style>
 </head>
 <body>
 
     <div class="dashboard-wrapper">
-        <div class="header-top">Live AQI</div>
+        <div class="header-top">Live Air Quality</div>
         
         <div class="main-headline">Indoor Air Quality is <b id="status-text">Detecting...</b></div>
 
         <div class="card-container">
             <div class="glass-card">
-                <div class="card-label">Internal AQI</div>
+                <div class="card-label"><b>Internal</b> AQI</div>
                 <div class="aqi-value" id="in-aqi">--</div>
                 <div class="metrics-box">
                     <div class="metric-item">
@@ -188,7 +171,7 @@
             </div>
 
             <div class="glass-card">
-                <div class="card-label">External AQI</div>
+                <div class="card-label"><b>External</b> AQI</div>
                 <div class="aqi-value" id="out-aqi">--</div>
                 <div class="metrics-box">
                     <div class="metric-item">
@@ -209,7 +192,7 @@
     </div>
 
     <script>
-        // ... Logic for Kaiterra and OpenWeather API (No changes needed here)
+        // JS logic remains identical to provide stable functionality
         const K_KEY = 'nomjPNZHYkGzzP5YIJePqI2cUON67v1pj9JPXb8BpcgnC5VX';
         const W_KEY = '9442ebd14169de10c88aacffb7dc7c71';
         const LAT = "19.0000", LON = "72.8200";
@@ -230,7 +213,6 @@
                 const fetches = DEVICE_IDS.map(id => fetch(`https://api.kaiterra.com/v1/devices/${id}/top?key=${K_KEY}`).then(r => r.json()));
                 const results = await Promise.allSettled(fetches);
                 let pm25List = [], pm10List = [];
-
                 results.forEach(res => {
                     if (res.status === 'fulfilled' && res.value.data) {
                         const d = res.value.data;
@@ -238,7 +220,6 @@
                         pm10List.push(d.find(x => x.param === 'rpm10c').points[0].value);
                     }
                 });
-
                 if (pm25List.length > 0) {
                     const low25 = Math.min(...pm25List);
                     const low10 = Math.min(...pm10List);
@@ -253,7 +234,6 @@
                     else if (aqi <= 60) st.innerText = "VERY GOOD";
                     else st.innerText = "GOOD";
                 }
-
                 const pRes = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${LAT}&lon=${LON}&appid=${W_KEY}`);
                 const pData = await pRes.json();
                 if (pData && pData.list) {
@@ -264,7 +244,6 @@
                 }
             } catch (e) { console.error(e); }
         }
-
         updateData();
         setInterval(updateData, 60000);
     </script>
