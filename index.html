@@ -13,7 +13,7 @@
             --glass-bg: rgba(255, 255, 255, 0.35);
             --glass-border: rgba(255, 255, 255, 0.4);
             --faint-label: rgba(68, 68, 68, 0.6);
-            --visible-grey: rgba(180, 180, 180, 0.5); /* Stronger grey for parameter borders */
+            --visible-grey: rgba(180, 180, 180, 0.5);
         }
         
         body, html { 
@@ -27,128 +27,67 @@
         }
 
         .dashboard-wrapper {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 100vw; height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
             justify-content: space-between; 
-            padding: 6vh 0; 
-            box-sizing: border-box;
+            padding: 6vh 0; box-sizing: border-box;
+        }
+
+        .header-section {
+            display: flex; flex-direction: column;
+            gap: 4vh; align-items: center;
         }
 
         .header-top, .footer-text { 
-            font-size: 2.5vh; 
-            font-weight: 400;
-            text-transform: uppercase; 
-            text-align: center;
-            margin-bottom: 5vh;
+            font-size: 2.5vh; font-weight: 500;
+            text-transform: uppercase; text-align: center;
         }
 
         .main-headline { 
-            font-size: 4vh; 
-            font-weight: 400; 
-            text-transform: uppercase; 
-            text-align: center;
-            margin: 0.5vh 0;
-            word-spacing: 0.2vw; 
-            letter-spacing: 0.2vw;
+            font-size: 5vh; font-weight: 400; 
+            text-transform: uppercase; text-align: center;
+            word-spacing: 0.2vw; letter-spacing: 0.2vw;
+            margin: 0;
         }
         #status-text { font-weight: 600; }
 
         .card-container { 
-            display: flex; 
-            flex-direction: row; 
-            gap: 5vw; 
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            flex-grow: 1; 
+            display: flex; flex-direction: row; gap: 5vw; 
+            justify-content: center; align-items: center;
+            width: 100%; flex-grow: 1; 
         }
 
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border-radius: 1.5vh; 
-            width: 50vh; 
-            height: 50vh;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-around;
-            align-items: center; 
+            border-radius: 2.5vh; 
+            width: 50vh; height: 50vh;
+            display: flex; flex-direction: column; 
+            justify-content: space-around; align-items: center; 
             padding: 3vh 2vw;
             border: 0.2vh solid var(--glass-border);
             box-sizing: border-box;
             box-shadow: 0 4vh 8vh rgba(0,0,0,0.1);
         }
 
-        .card-label { 
-            font-size: 3vh; 
-            text-transform: uppercase; 
-            font-weight: 400;
-        }
+        .card-label { font-size: 3vh; text-transform: uppercase; font-weight: 400; }
         .card-label b { font-weight: 700; color: var(--faint-label); }
 
-        .aqi-value { 
-            font-size: 15vh; 
-            font-weight: 200; 
-            color: var(--gold); 
-            line-height: 0.7; 
-            margin: 0;
-        }
+        .aqi-value { font-size: 15vh; font-weight: 200; color: var(--gold); line-height: 0.7; margin: 0; }
 
-        /* Fixed: Re-enabled visible grey borders for parameters */
         .metrics-box {
-            display: flex; 
-            width: 100%; 
+            display: flex; width: 100%; 
             border: 0.25vh solid var(--visible-grey); 
-            border-radius: 1vh; 
-            padding: 2.5vh 0;
+            border-radius: 2vh; padding: 2.5vh 0;
             background: rgba(255,255,255,0.05);
         }
 
-        .metric-item { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .metric-label { 
-            font-size: 2vh; 
-            text-transform: uppercase; 
-            font-weight: 400; 
-            margin-bottom: 0.2vh;
-            color: var(--faint-label);
-        }
+        .metric-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .metric-label { font-size: 2vh; text-transform: uppercase; color: var(--faint-label); margin-bottom: 0.2vh; }
+        .metric-val { font-size: 2vh; font-weight: 500; color: var(--gold); white-space: nowrap; }
+        .metric-unit { font-size: 1em; margin-left: 0.5vh; }
 
-        .metric-val { 
-            font-size: 2vh; 
-            font-weight: 500; 
-            color: var(--gold); 
-            white-space: nowrap;
-        }
-        
-        .metric-unit { 
-            font-size: 1em; 
-            font-weight: 500;
-            margin-left: 0.5vh; 
-        }
-
-        .footer-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 0.2; 
-        }
-
-        @media (orientation: portrait) {
-            .card-container { flex-direction: column; gap: 3vh; }
-            .glass-card { width: 80vw; height: 80vw; border-radius: 4vw; }
-            .aqi-value { font-size: 20vw; }
-            .metric-label, .metric-val { font-size: 4vw; }
-        }
+        .footer-container { display: flex; align-items: center; justify-content: center; flex-grow: 0.2; }
     </style>
 </head>
 <body>
@@ -197,10 +136,9 @@
     </div>
 
     <script>
-        /* Existing Kaiterra and OpenWeather API script here */
         const K_KEY = 'nomjPNZHYkGzzP5YIJePqI2cUON67v1pj9JPXb8BpcgnC5VX';
-        const W_KEY = '9442ebd14169de10c88aacffb7dc7c71';
-        const LAT = "19.0000", LON = "72.8200";
+        const GOOGLE_KEY = 'AIzaSyD-sKAUFhaCGFENHqjlyrQfhbgOplhxy-Q'; 
+        const LAT = 19.0000, LON = 72.8200;
         const DEVICE_IDS = ['d17c469a-1db3-4c73-85ba-8402e658f600', 'dd871a66-1d78-4f0f-b4a2-8b145d9b42f7', 'c7b40131-0924-4bdd-82dd-f2643847b39e', '424782d5-5528-43e4-8320-786dac9b62f2', 'e484e715-2fea-4480-8b66-1f07e02980fa', '796ebfee-564a-4361-b7d1-90f86c9297ed'];
 
         function calcAQI(pm) {
@@ -214,6 +152,7 @@
 
         async function updateData() {
             try {
+                // Internal Sensors
                 const fetches = DEVICE_IDS.map(id => fetch(`https://api.kaiterra.com/v1/devices/${id}/top?key=${K_KEY}`).then(r => r.json()));
                 const results = await Promise.allSettled(fetches);
                 let pm25List = [], pm10List = [];
@@ -234,18 +173,31 @@
                     const st = document.getElementById('status-text');
                     st.innerText = aqi <= 15 ? "PRISTINE" : aqi <= 30 ? "EXCEPTIONAL" : aqi <= 45 ? "EXCELLENT" : aqi <= 60 ? "VERY GOOD" : "GOOD";
                 }
-                const pRes = await fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${LAT}&lon=${LON}&appid=${W_KEY}`);
-                const pData = await pRes.json();
-                if (pData && pData.list) {
-                    const c = pData.list[0].components;
-                    document.getElementById('out-aqi').innerText = calcAQI(c.pm2_5);
-                    document.getElementById('out-pm25').innerHTML = Math.round(c.pm2_5) + '<span class="metric-unit">µg/m³</span>';
-                    document.getElementById('out-pm10').innerHTML = Math.round(c.pm10) + '<span class="metric-unit">µg/m³</span>';
+
+                // External Google API (Corrected to 'ind_cpcb')
+                const gRes = await fetch(`https://airquality.googleapis.com/v1/currentConditions:lookup?key=${GOOGLE_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        location: { latitude: LAT, longitude: LON },
+                        extraComputations: ["LOCAL_AQI", "POLLUTANT_CONCENTRATION"]
+                    })
+                });
+                const gData = await gRes.json();
+                if (gData && gData.indexes) {
+                    // UPDATED: Now looks for 'ind_cpcb'
+                    const localIdx = gData.indexes.find(i => i.code === 'ind_cpcb') || gData.indexes[0];
+                    document.getElementById('out-aqi').innerText = localIdx.aqi;
+                    
+                    const pm25 = gData.pollutants.find(p => p.code === 'pm25');
+                    const pm10 = gData.pollutants.find(p => p.code === 'pm10');
+                    if (pm25) document.getElementById('out-pm25').innerHTML = Math.round(pm25.concentration.value) + '<span class="metric-unit">µg/m³</span>';
+                    if (pm10) document.getElementById('out-pm10').innerHTML = Math.round(pm10.concentration.value) + '<span class="metric-unit">µg/m³</span>';
                 }
             } catch (e) { console.error(e); }
         }
         updateData();
-        setInterval(updateData, 300000);
+        setInterval(updateData, 300000); 
     </script>
 </body>
 </html>
